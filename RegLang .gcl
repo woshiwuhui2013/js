@@ -1,0 +1,156 @@
+
+contract main_control_flow {
+    @global address i_owner;
+    enum FlowState {Event_1xqvzz8,Activity_1c69yq9,Activity_0g0wb4i,Activity_0qgssry,Gateway_043180a,Activity_112kmpx,Gateway_1v9ha07,Activity_0ukxfi8,Activity_0dh14c8,Event_0ez0dog,Activity_0pmagfr,Activity_1bigitn,ScriptEnd}
+    @address FlowState state;
+    bool condGateway_043180a;
+    bool condGateway_1v9ha07;
+    @address function int32 next_step(){ 
+        if (true) {
+	}         else 
+        if (state == FlowState.Event_1xqvzz8) {
+            relay@i_owner Event_1xqvzz8_Request();
+            state=FlowState.Activity_1c69yq9;
+        }
+        else 
+        if (state == FlowState.Activity_1c69yq9) {
+            relay@i_owner Activity_1c69yq9_Request();
+            state=FlowState.Activity_0pmagfr;
+        }
+        else 
+        if (state == FlowState.Activity_0g0wb4i) {
+            relay@i_owner Activity_0g0wb4i_Request();
+            state=FlowState.Activity_112kmpx;
+        }
+        else 
+        if (state == FlowState.Activity_0qgssry) {
+            relay@i_owner Activity_0qgssry_Request();
+            state=FlowState.Gateway_043180a;
+        }
+        else 
+        if (state == FlowState.Gateway_043180a) {
+            relay@i_owner Gateway_043180a_Request();
+            state=condGateway_043180a?FlowState.Activity_0g0wb4i:FlowState.Activity_1c69yq9;
+        }
+        else 
+        if (state == FlowState.Activity_112kmpx) {
+            relay@i_owner Activity_112kmpx_Request();
+            state=FlowState.Gateway_1v9ha07;
+        }
+        else 
+        if (state == FlowState.Gateway_1v9ha07) {
+            relay@i_owner Gateway_1v9ha07_Request();
+            state=condGateway_1v9ha07?FlowState.Activity_0ukxfi8:FlowState.Activity_0g0wb4i;
+        }
+        else 
+        if (state == FlowState.Activity_0ukxfi8) {
+            relay@i_owner Activity_0ukxfi8_Request();
+            state=FlowState.Activity_1bigitn;
+        }
+        else 
+        if (state == FlowState.Activity_0dh14c8) {
+            relay@i_owner Activity_0dh14c8_Request();
+            state=FlowState.Event_0ez0dog;
+        }
+        else 
+        if (state == FlowState.Activity_0pmagfr) {
+            relay@i_owner Activity_0pmagfr_Request();
+            state=FlowState.Activity_0qgssry;
+        }
+        else 
+        if (state == FlowState.Activity_1bigitn) {
+            relay@i_owner Activity_1bigitn_Request();
+            state=FlowState.Activity_0dh14c8;
+        }
+        return 0;    }
+    @address function Event_1xqvzz8_Complete() public {
+    if (current_interaction == FlowState.Event_1xqvzz8) {
+     next_step();
+    }
+    }
+    @address function Activity_1c69yq9_Complete() public {
+    if (current_interaction == FlowState.Activity_1c69yq9) {
+     next_step();
+    }
+    }
+    @address function Activity_0g0wb4i_Complete() public {
+    if (current_interaction == FlowState.Activity_0g0wb4i) {
+     next_step();
+    }
+    }
+    @address function Activity_0qgssry_Complete() public {
+    if (current_interaction == FlowState.Activity_0qgssry) {
+     next_step();
+    }
+    }
+    @address function Gateway_043180a_Complete() public {
+    if (current_interaction == FlowState.Gateway_043180a) {
+     next_step();
+    }
+    }
+    @address function Activity_112kmpx_Complete() public {
+    if (current_interaction == FlowState.Activity_112kmpx) {
+     next_step();
+    }
+    }
+    @address function Gateway_1v9ha07_Complete() public {
+    if (current_interaction == FlowState.Gateway_1v9ha07) {
+     next_step();
+    }
+    }
+    @address function Activity_0ukxfi8_Complete() public {
+    if (current_interaction == FlowState.Activity_0ukxfi8) {
+     next_step();
+    }
+    }
+    @address function Activity_0dh14c8_Complete() public {
+    if (current_interaction == FlowState.Activity_0dh14c8) {
+     next_step();
+    }
+    }
+    @address function Activity_0pmagfr_Complete() public {
+    if (current_interaction == FlowState.Activity_0pmagfr) {
+     next_step();
+    }
+    }
+    @address function Activity_1bigitn_Complete() public {
+    if (current_interaction == FlowState.Activity_1bigitn) {
+     next_step();
+    }
+    }
+    @address FlowState current_interaction;
+    uint64 cf_contract;
+    @address function Event_1xqvzz8_Request() export {
+        current_interaction = FlowState.Event_1xqvzz8;
+    }
+    @address function Activity_1c69yq9_Request() export {
+        current_interaction = FlowState.Activity_1c69yq9;
+    }
+    @address function Activity_0g0wb4i_Request() export {
+        current_interaction = FlowState.Activity_0g0wb4i;
+    }
+    @address function Activity_0qgssry_Request() export {
+        current_interaction = FlowState.Activity_0qgssry;
+    }
+    @address function Gateway_043180a_Request() export {
+        current_interaction = FlowState.Gateway_043180a;
+    }
+    @address function Activity_112kmpx_Request() export {
+        current_interaction = FlowState.Activity_112kmpx;
+    }
+    @address function Gateway_1v9ha07_Request() export {
+        current_interaction = FlowState.Gateway_1v9ha07;
+    }
+    @address function Activity_0ukxfi8_Request() export {
+        current_interaction = FlowState.Activity_0ukxfi8;
+    }
+    @address function Activity_0dh14c8_Request() export {
+        current_interaction = FlowState.Activity_0dh14c8;
+    }
+    @address function Activity_0pmagfr_Request() export {
+        current_interaction = FlowState.Activity_0pmagfr;
+    }
+    @address function Activity_1bigitn_Request() export {
+        current_interaction = FlowState.Activity_1bigitn;
+    }
+}
