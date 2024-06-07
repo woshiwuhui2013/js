@@ -22,23 +22,23 @@
          console.log(data);
          myChart.hideLoading();
 
-         function expandNode(node){
-            if (node.children){
-                node.children.forEach(function (elem) {
-                    elem.collapsed = false;
-                    expandNode(elem)
-                 }); 
+        //  function expandNode(node){
+        //     if (node.children){
+        //         node.children.forEach(function (elem) {
+        //             elem.collapsed = false;
+        //             expandNode(elem)
+        //          }); 
                 
-            }else{
+        //     }else{
 
-                return
-            }
+        //         return
+        //     }
         
-         }
-         data.children.forEach(function (datam ) {
-            expandNode(datam)
-         });
-        expandNode(data.children)
+        //  }
+        //  data.children.forEach(function (datam) {
+        //     expandNode(datam)
+        //  });
+        // expandNode(data.children)
          myChart.setOption(
              (option = {
                  tooltip: {
@@ -48,7 +48,6 @@
                  series: [
                      {
                          type: 'tree',
-                         state: 'expand',
                          data: [data],
                          top: '1%',
                          left: '7%',
