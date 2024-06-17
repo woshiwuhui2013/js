@@ -123,7 +123,7 @@ statements.forEach(e => {
 
 
 
-const handleblock = (param) => {
+const handleblock = (param, stateJumpTable) => {
     //获得block节点的孩子节点的最终标识符，找到（）和{}中的节点
     const childrens = param.children;
     if (childrens == null) {
@@ -172,15 +172,15 @@ const handleblock = (param) => {
     getExpressionText(conditionStatement?.node, expressionText)
     // console.log(expressionText)
 
-    const conditionstr = expressionText.reduce((p,c)=>p+c,"")
+    const conditionstr = expressionText.reduce((p, c) => p + c, "")
 
     const conditionpattern = /^([0-9a-zA-Z._]+)==([0-9a-zA-Z._]+)$/i
     const regularres = conditionpattern.exec(conditionstr)
-    if (regularres == null){
+    if (regularres == null) {
         return;
     }
 
-    const curstate = ["state",regularres[1]=="state"?regularres[2]:regularres[1]]
+    const curstate = ["state", regularres[1] == "state" ? regularres[2] : regularres[1]]
     console.log(curstate)
 
     // const parseCurrentState = (expressionArr) => {
@@ -208,13 +208,13 @@ const handleblock = (param) => {
     let flag = false;
     let statements = []
     for (let elem of blockNode) {
-        if (elem.text == "{"){
+        if (elem.text == "{") {
             flag = true;
             continue;
         }
 
-        if (elem.text == "}"){
-            flag =false;
+        if (elem.text == "}") {
+            flag = false;
             break;
         }
         if (flag) {
@@ -226,30 +226,49 @@ const handleblock = (param) => {
     }
 
 
-    if (statements.length == 0){
+    if (statements.length == 0) {
         return
     }
 
-    
-    const nextstate = statements.reduce((p,e)=>{
-        
+
+    const nextstate = statements.reduce((p, e) => {
+
         let tmp = []
         getExpressionText(e, tmp);
-        const expstr = tmp.reduce((p,c)=>p+c,"")
+        const expstr = tmp.reduce((p, c) => p + c, "")
         const regularpattern = /^state=([0-9a-zA-Z._;]+)$/
-        
+
         const matchres = regularpattern.exec(expstr);
-        if (matchres == null){
+        if (matchres == null) {
             return []
         }
 
         return ["state", matchres[1]]
 
-    },[])
+    }, [])
 
     console.log(nextstate)
+
+    stateJumpTable.push([curstate[1], nextstate[1]])
 }
 
+let statejump = []
 checkblock.forEach(block => {
-    handleblock(block)
+    handleblock(block, statejump)
 })
+
+function sortStateJumpTable(statejumptable) {
+    let links = [];
+    let flag = false
+    let statemap = null;
+    while(flag==false){
+        for(var i =0; i < statejumptable.length;i++){
+            if (statemap == null){
+                statemap = {elem:e.curstate, next: [e.next]}
+                statejumptable[i] = null;
+            }else{
+                
+            }
+        }
+    }
+}

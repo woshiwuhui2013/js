@@ -1,23 +1,15 @@
+const graph = {
+    "a":"b",
+    "a":"c",
+    "c":"d",
+    "d":"f",
+    "e":"a",
+    "g":"a"
 
-arr = ['a', 'b', 'c']
-
-for (val in arr) {
-    // console.log(key)
-    console.log(val)
 }
 
 
-console.log(arr.length)
+const keys = Object.keys(graph)
+console.log(keys)
 
-res = arr.reduce((a,b)=>a+b, 0)
-
-str = "ssstate=a12 abc"
-const patterstr = /state=a(\w+)/ig
-
-console.log(patterstr.exec(str))
-
-
-const conditionpattern = /^([0-9a-zA-Z.]+)==([0-9a-zA-Z.]+)$/i
-
-str2 = "state==fjalk.fjdafj"
-console.log(conditionpattern.exec(str2))
+console.log(graph["a"].length)
