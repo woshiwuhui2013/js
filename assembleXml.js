@@ -6,7 +6,7 @@ class AssebleXml {
   constructor(filepath) {
     const parser = new xml2js.Parser();
 
-    const xmlString = fs.readFileSync('./template.xml')
+    const xmlString = fs.readFileSync(filepath)
 
     let _this = this;
     parser.parseString(xmlString, (err, result) => {
@@ -17,12 +17,29 @@ class AssebleXml {
     });
 
     console.log(this.xmlobj)
-    this.elems = []
+    this.graphobj = { tails: [], elems: [] }
 
   }
 
-  addElem(name, x, y, type) {
-    this.elems.push({ type: type, name: name, x: x, y: y })
+  addElem(cur, next, type) {
+    let x = 100, y = 100
+
+    let newtail = []
+    for (let c of this.graphobj.tails) {
+        if (c.name == cur){
+
+          for (let i = 0; i < next.length; i++){
+            x = c.x +150
+            y = c.y + 150 *i
+            this.graphobj.elems.push({type:type, x:x,y:y})
+            newtail.push({name: next[i], x:x, y:y})
+          }
+        }else{
+          newtail.push(c)
+        }
+    }
+    this.graphobj.tails = newtail;
+   
   }
 
   toXml() {
@@ -31,7 +48,7 @@ class AssebleXml {
     let diagram = definitions["bpmndi:BPMNDiagram"][0]
     let plane = diagram["bpmndi:BPMNPlane"][0]
 
-    for (let e of this.elems) {
+    for (let e of this.graphobj.elems) {
       if (e.type == "startevent") {
         let shapes = plane["bpmndi:BPMNShape"]
         let startevents = process["bpmn2:startEvent"];
@@ -100,11 +117,13 @@ class AssebleXml {
   }
 }
 
-const assembleXml = new AssebleXml('./template.xml')
-assembleXml.addElem("evnet_Test", 300, 100, "startevent")
-assembleXml.addElem("task_Test", 100, 100, "task")
-assembleXml.toXml()
+// const assembleXml = new AssebleXml('./template.xml')
+// assembleXml.addElem("evnet_Test", 300, 100, "startevent")
+// assembleXml.addElem("task_Test", 100, 100, "task")
+// assembleXml.toXml()
 
+
+module.exports = { AssebleXml }
 
 
 
