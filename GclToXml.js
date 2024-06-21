@@ -5,9 +5,11 @@ const gclmap = new GCLMap('./RegLang .gcl')
 gclmap.parseGcl()
 
 const assemble = new AssebleXml('./template.xml')
+let arr = Object.keys(gclmap.graph)
 
-for (let e of gclmap.graph){
-
-    assemble.addElem(e[0], e[1], "")
+for (let key of arr){
+    
+    assemble.addElem(key, gclmap.graph[key], "task")
 }
 
+assemble.toXml()
