@@ -1,0 +1,113 @@
+{
+  "name": "gclmapping",
+  "displayName": "gclmapping",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "walkthroughs": [
+      {
+        "id": "sample",
+        "title": "Sample",
+        "description": "A sample walkthrough",
+        "steps": [
+          {
+            "id": "runcommand",
+            "title": "Run Command",
+            "description": "This step will run a command and check off once it has been run.\n[Run Command](command:getting-started-sample.runCommand)",
+            "media": { "image": "media/image.png", "altText": "Empty image" },
+            "completionEvents": ["onCommand:getting-started-sample.runCommand"]
+          },
+          {
+            "id": "changesetting",
+            "title": "Change Setting",
+            "description": "This step will change a setting and check off when the setting has changed\n[Change Setting](command:getting-started-sample.changeSetting)",
+            "media": { "markdown": "media/markdown.md" },
+            "completionEvents": ["onSettingChanged:getting-started-sample.sampleSetting"]
+          }
+        ]
+      }
+    ],
+    "viewsContainers": {
+      "panel": [
+        {
+          "id":"testactive",
+          "title":"testactive",
+          "icon":"resources/tree.svg"
+        }
+      ]
+
+    }, 
+
+    "views": {
+      "testactive": [
+        {
+          "id": "package-dependencies",
+          "name": "Dependencies",
+          "icon": "resources/icon.png"
+        },
+        {
+          "id": "package-outline",
+          "name": "Outline"
+        }
+      ]
+    },
+    
+    "commands": [
+      {
+        "command": "gclmapping.gclAst",
+        "title": "gcl-ast"
+      },
+      {
+        "command": "samples.quickInput",
+        "title": "quickInput"
+      }
+    ],
+    "menus": {
+ 
+      "view/item/context": [
+        {
+          "command": "gclmapping.gclAst",
+          "when": "view==package-dependencies",
+          "group": "inline"
+          
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "gclmapping.gclAst",
+          "group": "gclmapping",
+          "when": "resourceExtname==.gcl"
+        }
+      ]
+      
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "echarts": "^5.5.1",
+    "test": "vscode-test",
+    "compile": "tsc -p ./"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.90.0",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+		"@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5"
+  }
+}

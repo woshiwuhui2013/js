@@ -4,7 +4,7 @@
 
 const fs = require('fs')
 const langParser_1 = require("./langParser");
-const doc = fs.readFileSync('./RegLang .gcl', 'utf-8')
+const doc = fs.readFileSync('./RegLang.gcl', 'utf-8')
 const tree = (0, langParser_1.default)(doc);
 
 let gcltree = {
