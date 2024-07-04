@@ -6,6 +6,8 @@ const path = require('path');
 const fs = require('fs')
 const langParser_1 = require("./langParser");
 
+const {stateHandle, noStateHandle} = require("./gclMappingHandle")
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 
@@ -42,20 +44,25 @@ function activate(context) {
 		treeDataProvider: new TreeDataProvider()
 	}))
 
-	context.subscriptions.push(vscode.commands.registerCommand('samples.quickInput', async () => {
+	context.subscriptions.push(vscode.commands.registerCommand('gclmapping.toxml', async (e) => {
         
-		var options = [{label:"有状态函数驱动业务运转", id: 0}, {label:"无状态函数，函数间直接调用完成业务运转", id:1}]
+		var options = {
+			hasstate: stateHandle,
+			nostate: noStateHandle
+		}
        
         const quickPick = vscode.window.createQuickPick();
-        quickPick.items = Object.keys(options).map(label => (options[label]));
+        quickPick.items = Object.keys(options).map(label => ({label}));
         console.log(quickPick.items);
 		quickPick.placeholder = "请选择源码结构"
 		quickPick.onDidChangeSelection(selection=>{
 			if (selection[0]) {
-                vscode.window.showInformationMessage(selection[0].label)
+                const dohandle= options[selection[0].label]
+				dohandle(quickPick, e.path)
+				quickPick.hide()
             }
 		})
-       
+		quickPick.onDidHide(() => quickPick.dispose()); 
         quickPick.show();
     }));
 

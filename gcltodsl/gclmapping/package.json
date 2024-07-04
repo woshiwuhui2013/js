@@ -68,6 +68,10 @@
         "title": "gcl-ast"
       },
       {
+        "command": "gclmapping.toxml",
+        "title": "GCLTODSL"
+      },
+      {
         "command": "samples.quickInput",
         "title": "quickInput"
       }
@@ -85,6 +89,12 @@
       "explorer/context": [
         {
           "command": "gclmapping.gclAst",
+          "group": "gclmapping",
+          "when": "resourceExtname==.gcl"
+        }
+        ,
+        {
+          "command": "gclmapping.toxml",
           "group": "gclmapping",
           "when": "resourceExtname==.gcl"
         }
