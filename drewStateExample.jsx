@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mermaid } from "mermaid";
+import { Mermaid } from 'mermaid-react';
 
 const StateMachineFlowchart = () => {
   const [states, setStates] = useState([
