@@ -38,9 +38,10 @@ const stateHandle = function (quickPickObj, filepath) {
             variableQuickPick.onDidChangeSelection(selection => {
                 if (selection[0]) {
                     vscode.window.showInformationMessage(selection[0].label)
-
-                    statefunName = selection[0].label
+                    state = selection[0].label
                     variableQuickPick.hide()
+                    const graph = gclmapping.parseGcl(true, state, statefunName)
+                    vscode.window.showInformationMessage(JSON.stringify(graph))
                 }
             })
             variableQuickPick.onDidHide(() => variableQuickPick.dispose());

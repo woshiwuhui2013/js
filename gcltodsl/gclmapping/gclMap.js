@@ -101,9 +101,10 @@ class GCLMap {
     }
 
 
-    getStateBlock() {
+    getStateBlock(stateVar, stateFun) {
+        
         // 建立函数的调用关系
-        const nextstepFun = this.funObject.filter(e => e.name == mappingFunction)
+        const nextstepFun = this.funObject.filter(e => e.name == stateFun)
         console.log(nextstepFun)
 
         // 获取函数中的所有StatementContext
@@ -233,7 +234,6 @@ class GCLMap {
                 if (matchres == null) {
                     return []
                 } else {
-
                     return ["state", [matchres[2], matchres[3].substring(0, matchres[3].length - 1)]]
                 }
             } else {
@@ -325,16 +325,17 @@ class GCLMap {
         this.sortStateJumpTable(this.statejump)
     }
 
-    parseGcl(){
-        this.getContract()
-        this.getVariable()
-        this.getFunction()
-        this.getStateBlock()
+    parseGcl(isState, stateVar, stateFun){
+        // this.getContract()
+        // this.getVariable()
+        // this.getFunction()
+        this.getStateBlock(stateVar, stateFun)
         this.getStateBlockGraph()
 
         console.log(this.dataObject)
         console.log(this.funObject)
         console.log(this.graph)
+        return this.graph;
     }
 }
 
