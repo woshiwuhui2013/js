@@ -1,6 +1,7 @@
 
 const vscode = require('vscode')
 const { GCLMap } = require("./gclMap")
+const {CreateDslGraph} = require("./CreateDslGraph")
 
 // gcl parse when code has state function
 const stateHandle = function (quickPickObj, filepath) {
@@ -41,7 +42,8 @@ const stateHandle = function (quickPickObj, filepath) {
                     state = selection[0].label
                     variableQuickPick.hide()
                     const graph = gclmapping.parseGcl(true, state, statefunName)
-                    vscode.window.showInformationMessage(JSON.stringify(graph))
+                    //vscode.window.showInformationMessage(JSON.stringify(graph))
+                    CreateDslGraph(graph)
                 }
             })
             variableQuickPick.onDidHide(() => variableQuickPick.dispose());

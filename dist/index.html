@@ -5,22 +5,47 @@
     <meta charset="utf-8" />
     <title>ECharts</title>
     <!-- 引入刚刚下载的 ECharts 文件 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script> -->
     <script src="
     https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js
     "></script>
-    <script src="./main.js"></script>
     <script src="./app.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+
+        // Example of using the render function
+        var element = document.getElementById('mermaid-flowchart');
+        const drawDiagram = async function () {
+            
+            const graphDefinition = 'graph TB\na-->b';
+            const { svg } = await mermaid.render('graphDiv', graphDefinition);
+            element.innerHTML = svg;
+        };
+
+        await drawDiagram();
+    </script>
+
+
 <script defer src="index.js"></script><script defer src="app.js"></script></head>
 
 <body>
+    <div class="mermaid">
+        graph LR
+        A[方形] -- 链接 --> B((圆形))
+        B --> C(圆角矩形)
+        C --> D{rhombus}
+        D --> E>三角形]
+    </div>
+    <div id="mermaid-flowchart">
+
+
+    </div>
     <div id="root">
     </div>
     <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
     <div id="main" style="width: 100vw;height:100vh;"></div>
-    <!-- <script type="text/javascript">
 
-
-    </script> -->
 </body>
 
 </html>

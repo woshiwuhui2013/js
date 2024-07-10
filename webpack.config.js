@@ -7,6 +7,7 @@ const isProduction = true
 module.exports = {
 
     "mode": "development",
+    devtool: "source-map",
     context: __dirname,
     entry: {
         index: "./browser.js",
