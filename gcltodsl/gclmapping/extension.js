@@ -58,7 +58,7 @@ function activate(context) {
 		quickPick.onDidChangeSelection(selection=>{
 			if (selection[0]) {
                 const dohandle= options[selection[0].label]
-				dohandle(quickPick, e.path)
+				dohandle(quickPick, e.path, context)
 				quickPick.hide()
             }
 		})

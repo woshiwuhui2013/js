@@ -291,7 +291,7 @@ class GCLMap {
             let next = undefined;
             for (let state of stateTable) {
 
-                if (graph[state[0]] != undefined) {
+                if (graph.get(state[0]) != undefined) {
                     continue;
                 }
                 if (state[0] == cur) {
@@ -302,7 +302,7 @@ class GCLMap {
             if ((next == undefined)) {
                 return;
             } else {
-                graph[cur] = next;
+                graph.set(cur, next);
                 for (let e of next) {
                     getNextState(e, stateTable, graph)
                 }
