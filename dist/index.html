@@ -20,8 +20,11 @@
             
             const graphDefinition = 'graph TB\na-->b';
             const { svg } = await mermaid.render('graphDiv', graphDefinition);
+          
             element.innerHTML = svg;
         };
+
+       
 
         await drawDiagram();
     </script>

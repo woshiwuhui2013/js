@@ -15,36 +15,29 @@ function getHtmlContent(context, dslgraph) {
 
     // 使用for...of循环遍历Map对象
     let htmlcontent = "graph TB\n";
+    let flowchartElements = "[";
+
+    
     for (let [key, value] of dslgraph) {
 
         // 假设每个值是一个对象，并且包含一个html属性
         console.log("key ", key, "val ", value)
         for (let elem of value) {
-
             htmlcontent += `${key}[${key}] --> ${elem}[${elem}]\n`
+            flowchartElements += `{"name": "${elem}", "type": "scripttask"},`
         }
     }
 
+    flowchartElements += "]"
+
     let runscript = fs.readFileSync(path.join(context.extensionPath,"HtmlScriptContent.js"), {encoding: 'utf-8'})
    
+    
 
-    var script = `
-    ${runscript}
-    `
+    var script = `\n var flowchartElements = ${flowchartElements}\n`+ `${runscript}`
     var style = `
     /* 添加CSS样式 */
-        body {
-            display: flex;
-            justify-content: center; /* 水平居中 */
-            align-items: center; /* 垂直居中 */
-            height: 100vh; /* 使用视口高度 */
-            margin: 0; /* 移除默认的外边距 */
-        }
-        .mermaid {
-            width: 100%; /* 使mermaid图占据全部宽度 */
-            max-width: 600px; /* 限制最大宽度，防止在大屏幕上过宽 */
-            box-sizing: border-box; /* 边框和内边距计算在宽度内 */
-        }
+       
     `
 
     var body = `
@@ -61,6 +54,7 @@ function getHtmlContent(context, dslgraph) {
         <title>flow graph</title>
         <!-- 引入刚刚下载的 ECharts 文件 -->
         <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
         <script>
         ${script}
         </script>
@@ -68,8 +62,38 @@ function getHtmlContent(context, dslgraph) {
             ${style}
         </style>
     </head>
-    <body>
-    ${body}
+    <body class="bg-gray-100 h-screen flex flex-col>
+        <main class="flex-grow flex overflow-hidden">
+        <!-- 左侧流程图 -->
+        <div class="w-1/2 p-4 bg-white border-r border-gray-200 overflow-auto">
+            <h2 class="text-xl font-semibold mb-4">流程图</h2>
+            <div class="bg-gray-200 h-full flex items-center justify-center">
+                ${body}
+            </div>
+        </div>
+        <!-- 右侧配置表格 -->
+        <div class="w-1/2 p-4 overflow-auto flex flex-col">
+            <h2 class="text-xl font-semibold mb-4">元素配置</h2>
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="px-4 py-2 text-left">元素名称</th>
+                            <th class="px-4 py-2 text-left">类型</th>
+                        </tr>
+                    </thead>
+                    <tbody id="configTableBody">
+                        <!-- 表格内容将通过 JavaScript 动态生成 -->
+                    </tbody>
+                </table>
+                <div class="px-4 py-3 bg-gray-100 border-t border-gray-200">
+                    <button id="submitConfig" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out">
+                        完成配置
+                    </button>
+                </div>
+            </div>
+        </div>
+        </main>
     </body>
     </html>
 `

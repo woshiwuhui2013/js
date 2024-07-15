@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>flow graph</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    ${ script }
+    </script>
+    <style>
+        $ {
+            style
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 h-screen flex flex-col>
+    <header class=" bg-blue-600 text-white p-4">
+    <h1 class="text-2xl font-bold">流程图配置工具</h1>
+    </header>
+    <main class="flex-grow flex overflow-hidden">
+        <!-- 左侧流程图 -->
+        <div class="w-1/2 p-4 bg-white border-r border-gray-200 overflow-auto">
+            <h2 class="text-xl font-semibold mb-4">流程图</h2>
+            <div class="bg-gray-200 h-full flex items-center justify-center">
+                ${body}
+            </div>
+        </div>
+        <!-- 右侧配置表格 -->
+        <div class="w-1/2 p-4 overflow-auto flex flex-col">
+            <h2 class="text-xl font-semibold mb-4">元素配置</h2>
+            <div class="flex-grow overflow-auto">
+                <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="px-4 py-2 text-left">元素名称</th>
+                            <th class="px-4 py-2 text-left">类型</th>
+                        </tr>
+                    </thead>
+                    <tbody id="configTableBody">
+                        <!-- 表格内容将通过 JavaScript 动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4">
+                <button id="submitConfig"
+                    class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    完成配置
+                </button>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

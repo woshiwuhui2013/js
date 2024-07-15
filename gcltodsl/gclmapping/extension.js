@@ -118,6 +118,23 @@ function activate(context) {
 
 		panel.webview.html = getWebviewContent(JSON.stringify(gcltree));
 
+
+		panel.webview.onDidReceiveMessage(
+			async message => {
+				if (['dsltype'].includes(message.command)) {
+					try {
+						const msg = message.content
+						vscode.window.showInformationMessage(msg);
+						
+					} catch (e) {
+						console.log(e)
+					}
+				}
+			},
+			undefined,
+			context.subscriptions
+		)
+
 	});
 
 	context.subscriptions.push(disposable);
