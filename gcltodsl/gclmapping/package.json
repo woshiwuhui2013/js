@@ -24,15 +24,24 @@
             "id": "runcommand",
             "title": "Run Command",
             "description": "This step will run a command and check off once it has been run.\n[Run Command](command:getting-started-sample.runCommand)",
-            "media": { "image": "media/image.png", "altText": "Empty image" },
-            "completionEvents": ["onCommand:getting-started-sample.runCommand"]
+            "media": {
+              "image": "media/image.png",
+              "altText": "Empty image"
+            },
+            "completionEvents": [
+              "onCommand:getting-started-sample.runCommand"
+            ]
           },
           {
             "id": "changesetting",
             "title": "Change Setting",
             "description": "This step will change a setting and check off when the setting has changed\n[Change Setting](command:getting-started-sample.changeSetting)",
-            "media": { "markdown": "media/markdown.md" },
-            "completionEvents": ["onSettingChanged:getting-started-sample.sampleSetting"]
+            "media": {
+              "markdown": "media/markdown.md"
+            },
+            "completionEvents": [
+              "onSettingChanged:getting-started-sample.sampleSetting"
+            ]
           }
         ]
       }
@@ -40,14 +49,12 @@
     "viewsContainers": {
       "panel": [
         {
-          "id":"testactive",
-          "title":"testactive",
-          "icon":"resources/tree.svg"
+          "id": "testactive",
+          "title": "testactive",
+          "icon": "resources/tree.svg"
         }
       ]
-
-    }, 
-
+    },
     "views": {
       "testactive": [
         {
@@ -61,7 +68,6 @@
         }
       ]
     },
-    
     "commands": [
       {
         "command": "gclmapping.gclAst",
@@ -77,13 +83,11 @@
       }
     ],
     "menus": {
- 
       "view/item/context": [
         {
           "command": "gclmapping.gclAst",
           "when": "view==package-dependencies",
           "group": "inline"
-          
         }
       ],
       "explorer/context": [
@@ -91,15 +95,13 @@
           "command": "gclmapping.gclAst",
           "group": "gclmapping",
           "when": "resourceExtname==.gcl"
-        }
-        ,
+        },
         {
           "command": "gclmapping.toxml",
           "group": "gclmapping",
           "when": "resourceExtname==.gcl"
         }
       ]
-      
     }
   },
   "scripts": {
@@ -113,11 +115,14 @@
     "@types/mocha": "^10.0.6",
     "@types/node": "20.x",
     "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-		"@typescript-eslint/parser": "^6.7.0",
     "eslint": "^8.57.0",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "xml2js": "^0.6.2"
   }
 }

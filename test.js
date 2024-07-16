@@ -1,11 +1,17 @@
-const option = {
-    key1: 1,
-    key2: 2,
-    key3:4
+const objtest = {
+    method1: (msg)=>{
+        console.log(this)
+        // console.log(this instanceof global)
+    },
+
+    method2: function (msg){
+        console.log(this)
+        // console.log(this instanceof global) 
+    },
+
+    aaa: "fjdjfsajlfdajl"
 }
 
-Object.keys(option).map(key=>{
-    console.log(key)
-    console.log(option[key])
-}
-)
+
+objtest.method1('fff')
+objtest.method2('gggg')

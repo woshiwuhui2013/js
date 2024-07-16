@@ -1,3 +1,5 @@
+
+const vscode = acquireVsCodeApi();
 window.onload = function () {
     const element = document.getElementById("graph")
     element.addEventListener('click', (event) => {
@@ -31,17 +33,30 @@ window.onload = function () {
         return select;
     }
 
+
+
+    function dedupeFor(arr) {
+        let unique = [];
+        for (let i = 0; i < arr.length; i++) {
+            if (unique.indexOf(arr[i]) === -1) {
+                unique.push(arr[i]);
+            }
+        }
+        return unique;
+    }
+
     function populateTable() {
         const tableBody = document.getElementById('configTableBody');
+        flowchartElements = dedupeFor(flowchartElements);
         flowchartElements.forEach((element, index) => {
             const row = tableBody.insertRow();
             const nameCell = row.insertCell(0);
             const typeCell = row.insertCell(1);
 
-            nameCell.textContent = element.name;
+            nameCell.textContent = element;
             nameCell.className = 'px-4 py-2 border-b';
             
-            typeCell.appendChild(createSelectElement(element.type, index));
+            typeCell.appendChild(createSelectElement("scripttask", index));
             typeCell.className = 'px-4 py-2 border-b';
         });
     }
@@ -49,14 +64,15 @@ window.onload = function () {
     function submitConfiguration() {
         const selects = document.querySelectorAll('#configTableBody select');
         const configuration = Array.from(selects).map(select => ({
-            name: flowchartElements[select.dataset.index].name,
+            name: flowchartElements[select.dataset.index],
             type: select.value
         }));
 
         console.log('配置已保存:', configuration);
         // 这里可以添加发送配置到服务器的代码
         alert('配置已保存！请查看控制台以获取详细信息。');
-        window.postMessage({ command: "dsltype", content: configuration }, "*");
+        
+        vscode.postMessage({ command: "dsltype", content: configuration }, "*");
         
     }
 

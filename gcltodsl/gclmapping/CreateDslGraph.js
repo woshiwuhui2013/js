@@ -2,7 +2,8 @@
 const vscode = require('vscode')
 const fs = require('fs')
 const path = require('path');
-const { Script } = require('vm');
+const { AssebleXml } = require('./assembleXml')
+
 
 function getHtmlContent(context, dslgraph) {
     //检查dslgraph是否为Map对象
@@ -17,24 +18,29 @@ function getHtmlContent(context, dslgraph) {
     let htmlcontent = "graph TB\n";
     let flowchartElements = "[";
 
-    
-    for (let [key, value] of dslgraph) {
 
+    let index = 0;
+    for (let [key, value] of dslgraph) {
+        if (index == 0){
+            flowchartElements += `"${key}"` 
+        }
+
+        index++
         // 假设每个值是一个对象，并且包含一个html属性
         console.log("key ", key, "val ", value)
         for (let elem of value) {
             htmlcontent += `${key}[${key}] --> ${elem}[${elem}]\n`
-            flowchartElements += `{"name": "${elem}", "type": "scripttask"},`
+            flowchartElements += `,"${elem}"`
         }
     }
 
     flowchartElements += "]"
 
-    let runscript = fs.readFileSync(path.join(context.extensionPath,"HtmlScriptContent.js"), {encoding: 'utf-8'})
-   
-    
+    let runscript = fs.readFileSync(path.join(context.extensionPath, "HtmlScriptContent.js"), { encoding: 'utf-8' })
 
-    var script = `\n var flowchartElements = ${flowchartElements}\n`+ `${runscript}`
+
+
+    var script = `\n var flowchartElements = ${flowchartElements}\n` + `${runscript}`
     var style = `
     /* 添加CSS样式 */
        
@@ -99,7 +105,7 @@ function getHtmlContent(context, dslgraph) {
 `
 }
 
-function CreateDslGraph(context, dslgraph) {
+function CreateDslGraph(context, dslgraph, filepath) {
     const panel = vscode.window.createWebviewPanel("graph", "dslgraph", vscode.ViewColumn.One, {
         enableScripts: true,
         retainContextWhenHidden: true,
@@ -108,6 +114,47 @@ function CreateDslGraph(context, dslgraph) {
     })
 
     panel.webview.html = getHtmlContent(context, dslgraph)
+
+    function callback(message) {
+        console.log("receive msg ", message)
+        console.dir(this.graph)
+        if (['dsltype'].includes(message.command)) {
+            try {
+                const msg = message.content;
+
+
+                console.log('receive msg parse=', msg)
+
+                let assembleXml = new AssebleXml(path.join(context.extensionPath, 'template.xml'));
+                for (let [key, value] of this.graph) {
+                    assembleXml.addElem(key, value, "task")
+                }
+
+
+                const name = path.basename(filepath);
+                const dirname = path.dirname(filepath);
+                console.log('filepaht = ', filepath)
+                console.log('filepaht = ', name)
+                console.log('filepaht = ', dirname)
+                assembleXml.toXml(path.join(dirname, "tmp.xml"))
+
+                vscode.commands.executeCommand('dslcommand.openFile', {path: path.join(dirname, "tmp.xml")})
+
+            } catch (e) {
+                console.log(e)
+            }
+        } else {
+            console.log('ignore msg')
+        }
+    }
+
+
+    this.graph = dslgraph
+    panel.webview.onDidReceiveMessage(
+        callback,
+        this,
+        context.subscriptions
+    )
 
 }
 

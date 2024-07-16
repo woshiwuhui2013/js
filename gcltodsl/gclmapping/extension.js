@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs')
 const langParser_1 = require("./langParser");
 
-const {stateHandle, noStateHandle} = require("./gclMappingHandle")
+const { stateHandle, noStateHandle } = require("./gclMappingHandle")
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -45,26 +45,26 @@ function activate(context) {
 	}))
 
 	context.subscriptions.push(vscode.commands.registerCommand('gclmapping.toxml', async (e) => {
-        
+
 		var options = {
 			hasstate: stateHandle,
 			nostate: noStateHandle
 		}
-       
-        const quickPick = vscode.window.createQuickPick();
-        quickPick.items = Object.keys(options).map(label => ({label}));
-        console.log(quickPick.items);
+
+		const quickPick = vscode.window.createQuickPick();
+		quickPick.items = Object.keys(options).map(label => ({ label }));
+		console.log(quickPick.items);
 		quickPick.placeholder = "请选择源码结构"
-		quickPick.onDidChangeSelection(selection=>{
+		quickPick.onDidChangeSelection(selection => {
 			if (selection[0]) {
-                const dohandle= options[selection[0].label]
+				const dohandle = options[selection[0].label]
 				dohandle(quickPick, e.path, context)
 				quickPick.hide()
-            }
+			}
 		})
-		quickPick.onDidHide(() => quickPick.dispose()); 
-        quickPick.show();
-    }));
+		quickPick.onDidHide(() => quickPick.dispose());
+		quickPick.show();
+	}));
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
@@ -117,23 +117,6 @@ function activate(context) {
 		let file = fs.readFileSync(path.join(context.extensionPath, '/gcl.json'))
 
 		panel.webview.html = getWebviewContent(JSON.stringify(gcltree));
-
-
-		panel.webview.onDidReceiveMessage(
-			async message => {
-				if (['dsltype'].includes(message.command)) {
-					try {
-						const msg = message.content
-						vscode.window.showInformationMessage(msg);
-						
-					} catch (e) {
-						console.log(e)
-					}
-				}
-			},
-			undefined,
-			context.subscriptions
-		)
 
 	});
 
@@ -245,7 +228,6 @@ function getWebviewContent(info) {
 }
 // This method is called when your extension is deactivated
 function deactivate() { }
-
 
 module.exports = {
 	activate,

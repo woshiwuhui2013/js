@@ -43,7 +43,7 @@ const stateHandle = function (quickPickObj, filepath, context) {
                     variableQuickPick.hide()
                     const graph = gclmapping.parseGcl(true, state, statefunName)
                     //vscode.window.showInformationMessage(JSON.stringify(graph))
-                    CreateDslGraph(context, graph)
+                    CreateDslGraph(context, graph, filepath)
                 }
             })
             variableQuickPick.onDidHide(() => variableQuickPick.dispose());
