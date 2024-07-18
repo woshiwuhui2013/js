@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const antlr4ts_1 = require("antlr4ts");
-const LangLexer_1 = require("./languageServer/Lang/LangLexer");
-const LangParser_1 = require("./languageServer/Lang/LangParser");
+const LangLexer_1 = require("../languageServer/Lang/LangLexer");
+const LangParser_1 = require("../languageServer/Lang/LangParser");
 // const vscode = require("vscode");
 const GCLStrParser = (str) => {
     const inputStream = new antlr4ts_1.ANTLRInputStream(str);

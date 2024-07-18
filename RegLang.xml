@@ -38,10 +38,7 @@
             </bpmn2:dataOutputAssociation>
         </flowable:regLang>
         <bpmn2:sequenceFlow id="Flow_1gnl77r" sourceRef="Activity_1c69yq9" targetRef="Activity_0pmagfr"/>
-        <bpmn2:dataObjectReference id="DataObjectReference_017mm8g" name="acceptedCompanyTypes" dataObjectRef="DataObject_1p0b8vb" dataType="mapping"
-                                   mappingData="[{&#34;keyType&#34;:&#34;string&#34;,&#34;keyDefault&#34;:&#34;unicode\&#34;国企\&#34;&#34;,&#34;valueType&#34;:&#34;bool&#34;,&#34;valueDefault&#34;:&#34;true&#34;,&#34;isEdit&#34;:false},{&#34;keyType&#34;:&#34;string&#34;,&#34;keyDefault&#34;:&#34;unicode\&#34;事业单位\&#34;&#34;,&#34;valueType&#34;:&#34;bool&#34;,&#34;valueDefault&#34;:&#34;true&#34;,&#34;isEdit&#34;:false},{&#34;keyType&#34;:&#34;string&#34;,&#34;keyDefault&#34;:&#34;unicode\&#34;外资\&#34;&#34;,&#34;valueType&#34;:&#34;bool&#34;,&#34;valueDefault&#34;:&#34;true&#34;,&#34;isEdit&#34;:false},{&#34;keyType&#34;:&#34;string&#34;,&#34;keyDefault&#34;:&#34;unicode\&#34;私企\&#34;&#34;,&#34;valueType&#34;:&#34;bool&#34;,&#34;valueDefault&#34;:&#34;true&#34;,&#34;isEdit&#34;:false},{&#34;keyType&#34;:&#34;string&#34;,&#34;keyDefault&#34;:&#34;unicode\&#34;个体\&#34;&#34;,&#34;valueType&#34;:&#34;bool&#34;,&#34;valueDefault&#34;:&#34;false&#34;,&#34;isEdit&#34;:false},{&#34;keyType&#34;:&#34;string&#34;,&#34;keyDefault&#34;:&#34;unicode\&#34;无业\&#34;&#34;,&#34;valueType&#34;:&#34;bool&#34;,&#34;valueDefault&#34;:&#34;false&#34;,&#34;isEdit&#34;:false}]"
-                                   elementType="string,bool"
-        $type="bpmn:DataObjectReference" />
+     
         <bpmn2:dataObject id="DataObject_1p0b8vb"/>
         <bpmn2:dataObjectReference id="DataObjectReference_07yv6oq" name="bank" dataObjectRef="DataObject_1u766z3" dataType="address"
                                    defaultValue=""/>

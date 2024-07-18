@@ -2,7 +2,7 @@
 const vscode = require('vscode')
 const fs = require('fs')
 const path = require('path');
-const { AssebleXml } = require('./assembleXml')
+const { AssebleXml } = require('./AssembleXml')
 
 
 function getHtmlContent(context, dslgraph) {
@@ -21,8 +21,8 @@ function getHtmlContent(context, dslgraph) {
 
     let index = 0;
     for (let [key, value] of dslgraph) {
-        if (index == 0){
-            flowchartElements += `"${key}"` 
+        if (index == 0) {
+            flowchartElements += `"${key}"`
         }
 
         index++
@@ -36,7 +36,7 @@ function getHtmlContent(context, dslgraph) {
 
     flowchartElements += "]"
 
-    let runscript = fs.readFileSync(path.join(context.extensionPath, "HtmlScriptContent.js"), { encoding: 'utf-8' })
+    let runscript = fs.readFileSync(path.join(context.extensionPath, "src", "HtmlScriptContent.js"), { encoding: 'utf-8' })
 
 
 
@@ -105,8 +105,9 @@ function getHtmlContent(context, dslgraph) {
 `
 }
 
-function CreateDslGraph(context, dslgraph, filepath) {
-    const panel = vscode.window.createWebviewPanel("graph", "dslgraph", vscode.ViewColumn.One, {
+function CreateDslGraph(context, dslgraph, filepath, id) {
+
+    const panel = vscode.window.createWebviewPanel("graph" + id, "dslgraph" + id, vscode.ViewColumn.One, {
         enableScripts: true,
         retainContextWhenHidden: true,
         localResourceRoots: [vscode.Uri.file(vscode.workspace.rootPath)]
@@ -117,7 +118,7 @@ function CreateDslGraph(context, dslgraph, filepath) {
 
     function callback(message) {
         console.log("receive msg ", message)
-        console.dir(this.graph)
+        // console.dir(this.graph)
         if (['dsltype'].includes(message.command)) {
             try {
                 const msg = message.content;
@@ -125,20 +126,15 @@ function CreateDslGraph(context, dslgraph, filepath) {
 
                 console.log('receive msg parse=', msg)
 
-                let assembleXml = new AssebleXml(path.join(context.extensionPath, 'template.xml'));
-                for (let [key, value] of this.graph) {
+                let assembleXml = new AssebleXml(path.join(context.extensionPath, 'template.xml'), msg);
+                for (let [key, value] of dslgraph) {
                     assembleXml.addElem(key, value, "task")
                 }
-
-
-                const name = path.basename(filepath);
+                let name = path.basename(filepath);
                 const dirname = path.dirname(filepath);
-                console.log('filepaht = ', filepath)
-                console.log('filepaht = ', name)
-                console.log('filepaht = ', dirname)
-                assembleXml.toXml(path.join(dirname, "tmp.xml"))
-
-                vscode.commands.executeCommand('dslcommand.openFile', {path: path.join(dirname, "tmp.xml")})
+                name = name.split(".")[0]
+                assembleXml.toXml(path.join(dirname, name + id + ".xml"))
+                vscode.commands.executeCommand('dslcommand.openFile', { path: path.join(dirname,  name + id + ".xml") })
 
             } catch (e) {
                 console.log(e)
@@ -149,7 +145,7 @@ function CreateDslGraph(context, dslgraph, filepath) {
     }
 
 
-    this.graph = dslgraph
+    // this.graph = dslgraph
     panel.webview.onDidReceiveMessage(
         callback,
         this,

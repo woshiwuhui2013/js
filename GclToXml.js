@@ -1,10 +1,10 @@
 const {GCLMap} = require('./gclMap')
 const {AssebleXml} = require('./assembleXml')
 
-const gclmap = new GCLMap('./RegLang .gcl')
+const gclmap = new GCLMap('./RegLang.gcl')
 gclmap.parseGcl()
 
-const assemble = new AssebleXml('./template.xml')
+const assemble = new AssebleXml('./Sample.xml')
 let arr = Object.keys(gclmap.graph)
 
 for (let key of arr){

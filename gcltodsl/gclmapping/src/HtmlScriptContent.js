@@ -17,7 +17,7 @@ window.onload = function () {
     //     { name: "结束", type: "endevent" }
     // ];
 
-    const elementTypes = ["startevent", "endevent", "usertask", "scripttask", "gateway"];
+    const elementTypes = ["startevent", "endevent", "usertask", "scripttask", "gateway", "reglangtask","authlangtask", "cryptlangtask"];
 
     function createSelectElement(currentType, index) {
         const select = document.createElement('select');

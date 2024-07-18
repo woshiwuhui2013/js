@@ -1,7 +1,7 @@
 const fs = require('fs')
 const langParser_1 = require("./langParser");
 const { get } = require('http');
-const { ContractDefinitionContext } = require('./languageServer/Lang/LangParser');
+const { ContractDefinitionContext } = require('../languageServer/Lang/LangParser');
 // const { networkInterfaces } = require('os');
 // const doc = fs.readFileSync('./RegLang .gcl', 'utf-8')
 // const tree = (0, langParser_1.default)(doc);
@@ -309,8 +309,13 @@ class GCLMap {
             }
         }
 
-        this.graph = new Map()
-        getNextState(entry[0], statejumptable, this.graph)
+        this.graph = []
+        for (let e of entry){
+            const flow = new Map()
+            getNextState(e, statejumptable, flow)
+            this.graph.push(flow)
+        }
+      
 
         // console.log(this.graph)
 
