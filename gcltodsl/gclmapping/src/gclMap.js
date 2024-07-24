@@ -100,9 +100,55 @@ class GCLMap {
         return this.funObject
     }
 
+    searchCalllist(node, result) {
+        for (let child of node.children) {
+            if (child.constructor.name === "FunctionCallArgumentsContext") {
+                result.push(node)
+                continue
+            }
 
+            if (child.childCount === 0) {
+                continue
+            }
+
+            this.searchCalllist(child, result)
+        }
+    }
+
+
+    //获取函数体调用的函数
+    getFunctionCallList(functionContext, members) {
+        const statementContexts = this.getFirstLayerContextNodes("StatementContext", functionContext)
+        let result = []
+        for (let statement of statementContexts) {
+            this.searchCalllist(statement, result)
+        }
+
+        // console.log(result)
+        let calleeArr = []
+        for (let functionNode of result) {
+            let textArr = []
+            this.getExpressionText(functionNode, textArr)
+
+            const callStatement = textArr.reduce((p, c) => p + c, "")
+            // console.log("call statement is ", callStatement)
+
+            for (let member of members) {
+                const regex = new RegExp(`\\b${member.name}\\s*\\(\\s*([^)]*)\\s*\\)`, 'g');
+                if (regex.test(callStatement)) {
+                    calleeArr.push(member.name)
+                    break
+                }
+            }
+        }
+
+        return calleeArr
+    }
+
+
+    // 获取状态函数的所有代码块
     getStateBlock(stateVar, stateFun) {
-        
+
         // 建立函数的调用关系
         const nextstepFun = this.funObject.filter(e => e.name == stateFun)
         console.log(nextstepFun)
@@ -267,6 +313,9 @@ class GCLMap {
                     incommingMap[e[0]] = 0;
                 }
             } else {
+                if (incommingMap[e[0]] == undefined) {
+                    incommingMap[e[0]] = 0;
+                }
                 for (let nextelem of e[1]) {
                     incommingMap[nextelem] = incommingMap[nextelem] + 1
                 }
@@ -310,12 +359,12 @@ class GCLMap {
         }
 
         this.graph = []
-        for (let e of entry){
+        for (let e of entry) {
             const flow = new Map()
             getNextState(e, statejumptable, flow)
             this.graph.push(flow)
         }
-      
+
 
         // console.log(this.graph)
 
@@ -330,18 +379,30 @@ class GCLMap {
         this.sortStateJumpTable(this.statejump)
     }
 
-    parseGcl(isState, stateVar, stateFun){
-        // this.getContract()
-        // this.getVariable()
-        // this.getFunction()
-        this.getStateBlock(stateVar, stateFun)
-        this.getStateBlockGraph()
+    parseGcl(isState, stateVar, stateFun) {
+        if (isState) {
+            this.getStateBlock(stateVar, stateFun)
+            this.getStateBlockGraph()
 
-        console.log(this.dataObject)
-        console.log(this.funObject)
-        console.log(this.graph)
-        return this.graph;
+            console.log(this.dataObject)
+            console.log(this.funObject)
+            console.log(this.graph)
+            return this.graph;
+        }else{
+            let callGraph = []
+            for (let fun of this.funObject) {
+                const arr = this.getFunctionCallList(fun.elem, this.funObject)
+        
+                console.log(fun.name, "->", arr)
+                if (arr.length != 0) {
+                    callGraph.push([fun.name, arr])
+                }
+            }
+            this.sortStateJumpTable(callGraph)
+            return this.graph
+        }
+
     }
 }
 
-module.exports = {GCLMap}
+module.exports = { GCLMap }

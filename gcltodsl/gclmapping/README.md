@@ -1,35 +1,22 @@
-# gclmapping README
+# GCL代码映射DSL流程图
+## 简述
+  通过分析gcl代码的语法树，构建gcl代码的调用的流程。通过提取流程的关键信息，构建DSL建模工具xml的文件，最终会在dsl建模工具上可视化的展示gcl的流程。
 
-This is the README for your extension "gclmapping". After writing up a brief description, we recommend including the following sections.
 
-## Features
+### 分析过程
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+#### 函数调用流程分析
+   ![alt text](image.png)
+   ![alt text](image-1.png)
 
-For example if there is an image subfolder under your extension project workspace:
+   FunctionDefinitionContext--->StatementContext--->ExpressStatementContext--->ExpressionContext---->ExpressionContext
+   ExpressionStatmentContext 
+   ExpresionContext
+   PrimaryExpressionContext
+   FunctionCallArgumentsContext
 
-\!\[feature X\]\(images/feature-x.png\)
+   RelayStatementContext
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
 
 ## Release Notes
 

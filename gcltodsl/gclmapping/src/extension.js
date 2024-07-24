@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs')
 const langParser_1 = require("./langParser");
 
-const { stateHandle, noStateHandle } = require("./gclMappingHandle")
+const { stateHandle, noStateHandle } = require("./GclMappingHandle")
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed

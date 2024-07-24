@@ -1,6 +1,6 @@
 
 const vscode = require('vscode')
-const { GCLMap } = require("./gclMap")
+const { GCLMap } = require("./GclMap")
 const { CreateDslGraph } = require("./CreateDslGraph")
 
 // gcl parse when code has state function
@@ -60,6 +60,32 @@ const stateHandle = function (quickPickObj, filepath, context) {
 const noStateHandle = function (quickPickObj, filepath, context) {
     console.log("nostate", " ", filepath)
     vscode.window.showInformationMessage(filepath)
+    const gclmapping = new GCLMap(filepath)
+
+    const funs = gclmapping.getFunction()
+    console.log(funs)
+
+    const graph = gclmapping.parseGcl(false, null, null)
+    for (let i = 0; i < graph.length; i++) {
+        CreateDslGraph(context, graph[i], filepath, i + 1)
+    }
+    // const funs = gclmapping.getFunction()
+    // console.log(funs)
+
+    // let callGraph = []
+    // for (let fun of funs) {
+    //     const arr = gclmapping.getFunctionCallList(fun.elem, funs)
+
+    //     console.log(fun.name, "->", arr)
+    //     if (arr.length != 0) {
+    //         callGraph.push([fun.name, arr])
+    //     }
+    // }
+
+
+
+
+    // console.log("call graph ", callGraph)
 }
 
 module.exports = { stateHandle, noStateHandle }
